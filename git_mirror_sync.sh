@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
 dest_path="$1"
 repo_list_file="$2"
 
-cat "$repo_list_file" | while read line
+while read -r line
 do
-	repo="$(echo "$line" | sed -e 's/\s*$//')"
+	repo="$(echo "$line" | tr -d '[:space:]')"
 	if [ -z "$repo" ]
 	then
 		continue
@@ -19,4 +19,4 @@ do
 	else
 		git clone --mirror "$repo" "$mirror_path"
 	fi
-done
+done < "$repo_list_file"
